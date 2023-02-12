@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Estudos.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]/[action]")]
 
 public class FilesController : ControllerBase
 {
@@ -39,13 +40,13 @@ public class FilesController : ControllerBase
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGet (Name ="ObterArquivo")]
     public async Task<IActionResult> GetFile([FromQuery] string Name)
     {
         if(String.IsNullOrEmpty(Name)){
             return BadRequest();
         }
-
+      
         var caminho = Path.Combine(Directory.GetCurrentDirectory(), "file_server");
         var retorno =  Directory.GetFiles(caminho).Where(x => x.Contains(Name))?.FirstOrDefault();
 
@@ -57,6 +58,21 @@ public class FilesController : ControllerBase
 
         return Ok(fileBase64);
 
+    }
+
+    [HttpGet(Name = "ObterTodosArquivos")]
+    public IActionResult GetFiles(){
+        
+        var caminho = Path.Combine(Directory.GetCurrentDirectory(),"file_server");
+        var arquivos =  Directory.GetFiles(caminho).ToList();
+       
+        IList<string> ListaArquivos = new List<string>();
+
+        arquivos.ForEach(a => {ListaArquivos.Add(a.Substring(89));});
+
+        var json = JsonConvert.SerializeObject(ListaArquivos);
+        
+        return Ok(json);
     }
 
 }
