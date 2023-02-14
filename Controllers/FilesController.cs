@@ -68,7 +68,7 @@ public class FilesController : ControllerBase
        
         IList<string> ListaArquivos = new List<string>();
 
-        arquivos.ForEach(a => {ListaArquivos.Add(a.Substring(89));});
+        arquivos.ForEach(a => {ListaArquivos.Add(a.Substring(16));});
 
         var json = JsonConvert.SerializeObject(ListaArquivos);
         
