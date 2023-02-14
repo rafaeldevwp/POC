@@ -19,7 +19,7 @@ public class FilesController : ControllerBase
         }    
         
         //Atribuindo ID ao Arquivo Inserido
-        var ArquivoID = $"{Id}.{file.FileName}";
+        var ArquivoID = $"{Id}.{file.FileName.ToLower()}";
 
         //Determina onde o arquivo será salvo, apartir do diretorio corrente
         var caminho = Path.Combine(Directory.GetCurrentDirectory(), "file_server", ArquivoID);
@@ -48,7 +48,7 @@ public class FilesController : ControllerBase
         }
       
         var caminho = Path.Combine(Directory.GetCurrentDirectory(), "file_server");
-        var retorno =  Directory.GetFiles(caminho).Where(x => x.Contains(Name))?.FirstOrDefault();
+        var retorno =  Directory.GetFiles(caminho).Where(x => x.Contains(Name.ToLower()))?.FirstOrDefault();
 
         Byte[] FileBytes;
         var fileBase64 = "";
